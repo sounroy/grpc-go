@@ -1,0 +1,31 @@
+
+syntax = "proto3";
+
+package greet;
+
+option go_package = "com.ea/greet";
+
+message GreetRequest {
+    string first_name = 1;
+}
+
+message GreetResponse {
+    string result = 1;
+}
+
+service GreetService {
+    // takes request and returns greetresponse [unary client server ]
+    rpc Greet (GreetRequest) returns (GreetResponse);
+
+    // Server streaming where server sends stream of responses
+    rpc GreetManyTimes (GreetRequest) returns (stream GreetResponse);
+
+    // Client streaming(server sends 1 response but client sends many)
+    rpc LongGreet(stream GreetRequest) returns (GreetResponse);
+
+    // Bidirectional streams
+    rpc GreetEveryone(stream GreetRequest) returns (stream GreetResponse);
+    
+    // Greet with deadline
+    rpc GreetWithDeadLine(GreetRequest) returns (GreetResponse);
+}
